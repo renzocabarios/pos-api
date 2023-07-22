@@ -6,13 +6,17 @@ import mongoose from "mongoose";
 import auth from "../auth/service.js";
 
 const getAll = async (_req, _res) => {
-  const data = await service.getAll();
+  const { limit = 10, page = 1 } = _req.query;
+  const data = await service.getAll({ limit, page });
   _res.send({
     data,
     status: "success",
     message: "Get user success",
     meta: {
       access: generateAccess({}),
+      total: await service.countTotal(),
+      currentPage: parseInt(page),
+      totalPage: Math.ceil((await service.countTotal()) / limit),
     },
   });
 };
