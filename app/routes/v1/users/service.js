@@ -2,6 +2,10 @@ import model from "./model.js";
 import { RESOURCE } from "../../../constants/index.js";
 import admin from "./discriminators/admin.model.js";
 
+const countTotal = async () => {
+  return await model.countDocuments({ deleted: false });
+};
+
 const getAll = async ({ limit = 10, page = 1 }) => {
   return await model
     .find({ deleted: false })
@@ -28,4 +32,4 @@ const removeOne = async (filter, session) => {
   );
 };
 
-export default { getAll, add, update, removeOne };
+export default { getAll, add, update, removeOne, countTotal };
