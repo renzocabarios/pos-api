@@ -13,8 +13,11 @@ export const routes = [
     url: "/api/v1/auth",
     route: V1.authRoute,
   },
+  {
+    url: "/api/v1/items",
+    route: V1.itemsRoute,
+  },
 ];
-
 export const addRoutes = (app) => {
   routes.forEach((route) => {
     app.use(route.url, route.route);
