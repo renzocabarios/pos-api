@@ -2,8 +2,11 @@ import model from "./model.js";
 import { RESOURCE } from "../../../constants/index.js";
 import admin from "./discriminators/admin.model.js";
 
-const getAll = async () => {
-  return await model.find({ deleted: false });
+const getAll = async ({ limit = 10, page = 1 }) => {
+  return await model
+    .find({ deleted: false })
+    .limit(limit * 1)
+    .skip((page - 1) * limit);
 };
 
 const add = async (_body, session) => {
