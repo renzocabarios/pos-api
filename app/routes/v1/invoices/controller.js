@@ -21,8 +21,11 @@ const getAll = async (_req, _res) => {
 
 const add = async (_req, _res) => {
   const session = await mongoose.startSession();
-  const { items, ...res } = _req.body;
-  const total = items.reduce((acc, curr) => acc + curr.price, 0);
+  const { items } = _req.body;
+  const total = items.reduce(
+    (acc, curr) => acc + curr.price * curr.quantity,
+    0
+  );
   _res.send(
     await transaction(
       session,

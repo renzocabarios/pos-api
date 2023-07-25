@@ -7,6 +7,7 @@ const schema = mongoose.Schema({
       {
         name: String,
         price: Number,
+        quantity: Number,
         item: {
           type: mongoose.Schema.Types.ObjectId,
           ref: RESOURCE.INVOICES,
