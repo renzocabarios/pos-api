@@ -17,6 +17,10 @@ export const routes = [
     url: "/api/v1/items",
     route: V1.itemsRoute,
   },
+  {
+    url: "/api/v1/invoices",
+    route: V1.invoicesRoute,
+  },
 ];
 export const addRoutes = (app) => {
   routes.forEach((route) => {
