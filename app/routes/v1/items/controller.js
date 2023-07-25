@@ -21,13 +21,11 @@ const getAll = async (_req, _res) => {
 
 const add = async (_req, _res) => {
   const session = await mongoose.startSession();
-  const { email, password, ...res } = _req.body;
   _res.send(
     await transaction(
       session,
       async () => {
-        await auth.add({ user: temp[0]._id, email, password: hashed }, session);
-        return await service.add({ ...res }, session);
+        return await service.add({ ..._req.body }, session);
       },
       "Create item"
     )
