@@ -1,17 +1,18 @@
 import service from "./service.js";
+import { Request, Response } from "express";
 
-const getAll = async (_req, _res) => {
+const getAll = async (_req: Request, _res: Response) => {
   const data = await service.getAll();
   _res.send({ data, status: "success", message: "Get sample success" });
 };
 
-const getById = async (_req, _res) => {
+const getById = async (_req: Request, _res: Response) => {
   const { id } = _req.params;
   const data = await service.getById(id);
   _res.send({ data: [data], status: "success", message: "Get sample success" });
 };
 
-const add = async (_req, _res) => {
+const add = async (_req: Request, _res: Response) => {
   const data = await service.add(_req.body);
   _res.send({
     data: [data],
@@ -20,7 +21,7 @@ const add = async (_req, _res) => {
   });
 };
 
-const update = async (_req, _res) => {
+const update = async (_req: Request, _res: Response) => {
   const { id } = _req.params;
   const data = await service.update(id, _req.body);
   _res.send({
@@ -30,7 +31,7 @@ const update = async (_req, _res) => {
   });
 };
 
-const deleteById = async (_req, _res) => {
+const deleteById = async (_req: Request, _res: Response) => {
   const { id } = _req.params;
   const data = await service.deleteById(id);
   _res.send({

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { RESOURCE } from "../../../constants/index.js";
 
-const schema = mongoose.Schema({
+const schema = new mongoose.Schema({
   message: {
     type: String,
   },

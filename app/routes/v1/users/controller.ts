@@ -2,27 +2,24 @@ import service from "./service.js";
 import bcrypt from "bcrypt";
 import ENV from "../../../env/index.js";
 import { transaction, generateAccess } from "../../../utils/index.js";
-import mongoose from "mongoose";
+import { startSession, ClientSession } from "mongoose";
 import auth from "../auth/service.js";
+import { Request, Response } from "express";
 
-const getAll = async (_req, _res) => {
-  const { limit = 10, page = 1 } = _req.query;
-  const data = await service.getAll({ limit, page });
+const getAll = async (_req: Request, _res: Response) => {
+  const data = await service.getAll();
   _res.send({
     data,
     status: "success",
     message: "Get user success",
     meta: {
       access: generateAccess({}),
-      total: await service.countTotal(),
-      currentPage: parseInt(page),
-      totalPage: Math.ceil((await service.countTotal()) / limit),
     },
   });
 };
 
-const add = async (_req, _res) => {
-  const session = await mongoose.startSession();
+const add = async (_req: Request, _res: Response) => {
+  const session: ClientSession = await startSession();
   const { email, password, ...res } = _req.body;
   const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
   _res.send(
@@ -38,8 +35,8 @@ const add = async (_req, _res) => {
   );
 };
 
-const update = async (_req, _res) => {
-  const session = await mongoose.startSession();
+const update = async (_req: Request, _res: Response) => {
+  const session: ClientSession = await startSession();
   const { id } = _req.params;
   const { password, ...res } = _req.body;
   _res.send(
@@ -53,8 +50,8 @@ const update = async (_req, _res) => {
   );
 };
 
-const removeOne = async (_req, _res) => {
-  const session = await mongoose.startSession();
+const removeOne = async (_req: Request, _res: Response) => {
+  const session: ClientSession = await startSession();
 
   const { id } = _req.params;
   _res.send(

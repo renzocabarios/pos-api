@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import ENV from "../env/index.js";
+import { Request, Response, NextFunction } from "express";
 
-export default async (_req, _res, _next) => {
+export default async (_req: Request, _res: Response, _next: NextFunction) => {
   // const publicRoutes = [
   //   { url: "/api/v1/users", method: "POST" },
   //   { url: "/api/v1/auth", method: "POST" },
@@ -29,16 +30,16 @@ export default async (_req, _res, _next) => {
   _next();
 };
 
-const getToken = (header = "") => {
-  return header.split(" ")[1];
-};
+// const getToken = (header = "") => {
+//   return header.split(" ")[1];
+// };
 
-const getUserId = async (token = "") => {
-  return jwt.verify(token, ENV.JWT_KEY)["id"] ?? null;
-};
+// const getUserId = async (token = "") => {
+//   return jwt.verify(token, ENV.JWT_KEY)["id"] ?? null;
+// };
 
-const checkRoutes = (routes, currUrl, currMethod) => {
-  return routes.some(
-    (route) => route.url === currUrl && route.method === currMethod
-  );
-};
+// const checkRoutes = (routes, currUrl, currMethod) => {
+//   return routes.some(
+//     (route) => route.url === currUrl && route.method === currMethod
+//   );
+// };

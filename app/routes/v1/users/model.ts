@@ -1,12 +1,13 @@
-import mongoose from "mongoose";
-import { RESOURCE } from "../../../constants/index.js";
+import { Schema, model } from "mongoose";
+import { RESOURCE } from "../../../constants";
+import { IUserModel } from "../../../types";
 
 const option = {
   discriminatorKey: "__t",
   timestamps: true,
 };
 
-const schema = mongoose.Schema(
+const schema = new Schema<IUserModel>(
   {
     firstName: {
       type: String,
@@ -24,4 +25,4 @@ const schema = mongoose.Schema(
   option
 );
 
-export default mongoose.model(RESOURCE.USERS.DEFAULT, schema);
+export default model(RESOURCE.USERS.DEFAULT, schema);

@@ -7,8 +7,9 @@ import {
   generateRefresh,
   transaction,
 } from "../../../utils/index.js";
+import { Request, Response } from "express";
 
-const authenticate = async (_req, _res) => {
+const authenticate = async (_req: Request, _res: Response) => {
   const { email, password } = _req.body;
   const data = await service.getByEmail(email);
 
@@ -32,12 +33,12 @@ const authenticate = async (_req, _res) => {
   });
 };
 
-const getAll = async (_req, _res) => {
+const getAll = async (_req: Request, _res: Response) => {
   const data = await service.getAll();
   _res.send({ data, status: "success", message: "Get auth success" });
 };
 
-const add = async (_req, _res) => {
+const add = async (_req: Request, _res: Response) => {
   const session = await mongoose.startSession();
   const { password, ...res } = _req.body;
   const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
@@ -52,7 +53,7 @@ const add = async (_req, _res) => {
   );
 };
 
-const update = async (_req, _res) => {
+const update = async (_req: Request, _res: Response) => {
   const session = await mongoose.startSession();
   const { id } = _req.params;
   const { password, ...res } = _req.body;
@@ -67,19 +68,25 @@ const update = async (_req, _res) => {
   );
 };
 
-const changePassword = async (_req, _res) => {
+const changePassword = async (_req: Request, _res: Response) => {
+  const session = await mongoose.startSession();
+
   const { id } = _req.params;
   const { password } = _req.body;
-  const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
-  const data = await service.update(id, { password: hashed });
-  _res.send({
-    data: [data],
-    status: "success",
-    message: "Change password success",
-  });
+
+  _res.send(
+    await transaction(
+      session,
+      async () => {
+        const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
+        return await service.update(id, { password: hashed }, session);
+      },
+      "Update auth"
+    )
+  );
 };
 
-const removeOne = async (_req, _res) => {
+const removeOne = async (_req: Request, _res: Response) => {
   const session = await mongoose.startSession();
   const { id } = _req.params;
   _res.send(

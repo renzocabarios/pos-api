@@ -6,7 +6,7 @@ const option = {
   timestamps: true,
 };
 
-const schema = mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     email: {
       type: String,

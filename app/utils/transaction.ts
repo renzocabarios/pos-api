@@ -1,7 +1,7 @@
-import generateAccess from "./generateAccess.js";
+import generateAccess from "./generateAccess";
 
-export default async (session, operations, action) => {
-  let data;
+export default async (session: any, operations: any, action: any) => {
+  let data: any;
   return await session
     .withTransaction(async () => {
       const temp = await operations();
@@ -17,7 +17,7 @@ export default async (session, operations, action) => {
         },
       };
     })
-    .catch((e) => {
+    .catch((e: any) => {
       return {
         data: [],
         status: "fail",

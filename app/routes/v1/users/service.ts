@@ -1,35 +1,30 @@
 import model from "./model.js";
 import { RESOURCE } from "../../../constants/index.js";
 import admin from "./discriminators/admin.model.js";
+import { ClientSession } from "mongoose";
+import { IAddUserDto } from "../../../types/index.js";
 
-const countTotal = async () => {
-  return await model.countDocuments({ deleted: false });
-};
+async function getAll() {
+  return await model.find({ deleted: false });
+}
 
-const getAll = async ({ limit = 10, page = 1 }) => {
-  return await model
-    .find({ deleted: false })
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-};
-
-const add = async (_body, session) => {
+async function add(_body: IAddUserDto, session: ClientSession) {
   if (_body.type === RESOURCE.USERS.ADMIN) {
     return await admin.create([_body], { session });
   }
   return await model.create([_body], { session });
-};
+}
 
-const update = async (filter, _body, session) => {
+async function update(filter: any, _body: any, session: ClientSession) {
   return await model.findOneAndUpdate(filter, _body, { new: true, session });
-};
+}
 
-const removeOne = async (filter, session) => {
+async function removeOne(filter: any, session: ClientSession) {
   return await model.findOneAndUpdate(
     filter,
     { deleted: true },
     { new: true, session }
   );
-};
+}
 
-export default { getAll, add, update, removeOne, countTotal };
+export default { getAll, add, update, removeOne };
