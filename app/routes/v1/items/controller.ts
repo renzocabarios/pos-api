@@ -20,12 +20,11 @@ const getAll = async (_req: Request, _res: Response) => {
 const add = async (_req: Request, _res: Response) => {
   const session: ClientSession = await startSession();
   const { email, password, ...res } = _req.body;
-  const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
   _res.send(
     await transaction(
       session,
       async () => {
-        return await service.add({ ...res }, session);
+        return await service.add(_req.body, session);
       },
       "Create item"
     )
@@ -35,12 +34,11 @@ const add = async (_req: Request, _res: Response) => {
 const update = async (_req: Request, _res: Response) => {
   const session: ClientSession = await startSession();
   const { id } = _req.params;
-  const { password, ...res } = _req.body;
   _res.send(
     await transaction(
       session,
       async () => {
-        return await service.update({ _id: id }, res, session);
+        return await service.update({ _id: id }, _req.body, session);
       },
       "Update item"
     )
