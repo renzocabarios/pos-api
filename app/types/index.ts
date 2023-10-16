@@ -1,10 +1,23 @@
 import { RESOURCE } from "../constants";
 
+export interface ITransactionModel {
+  _id?: string;
+  items: ITransactionItem[];
+  total: number;
+  deleted?: Boolean;
+}
+
+export interface ITransactionItem {
+  item: string | IItemModel;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 export interface IItemModel {
   _id?: string;
   name: string;
   price: number;
-  __t?: string;
   deleted?: Boolean;
 }
 
