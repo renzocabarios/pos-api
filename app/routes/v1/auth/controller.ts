@@ -79,7 +79,7 @@ const changePassword = async (_req: Request, _res: Response) => {
       session,
       async () => {
         const hashed = await bcrypt.hash(password, ENV.HASH_SALT);
-        return await service.update(id, { password: hashed }, session);
+        return await service.update({ _id: id }, { password: hashed }, session);
       },
       "Update auth"
     )

@@ -28,7 +28,7 @@ const add = async (_req: Request, _res: Response) => {
       async () => {
         const temp = await service.add({ ...res }, session);
         await auth.add({ user: temp[0]._id, email, password: hashed }, session);
-        return await service.add({ ...res }, session);
+        return temp;
       },
       "Create user"
     )
